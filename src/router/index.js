@@ -17,7 +17,7 @@ const routes = [
     component: Test
   }
 ];
-
+//
 const router = new VueRouter({
   routes
 });
