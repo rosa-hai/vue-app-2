@@ -2,33 +2,16 @@
   <div v-if="currentBattle">
     <h2>{{ currentBattle | battleName }}</h2>
     <h3>{{ currentBattle | votesTot }}</h3>
-    <div id="battleStats">
-      <p data-color="primary">
-        {{ currentBattle.item_1.name }} <br />
-        {{ currentBattle.item_1.vote }} <br />
-        <span @click="vote(1)">+1</span>
-      </p>
-      <div id="range">
-        <div class="fill" :style="{ width: fill + '%' }"></div>
-      </div>
-      <p data-color="secondary">
-        {{ currentBattle.item_2.name }} <br />
-        {{ currentBattle.item_2.vote }}
-        <br />
-        <span @click="vote(2)">+1</span>
-      </p>
-    </div>
+    <Stats :current-battle="currentBattle"></Stats>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-
+import Stats from "@/components/Stats";
 export default {
   name: "Battle",
   components: {
-    // HelloWorld
+    Stats
   },
   data() {
     return {
@@ -49,13 +32,7 @@ export default {
     id: String,
     battles: Array
   },
-  computed: {
-    fill: function() {
-      const totalCount =
-        this.currentBattle.item_1.vote + this.currentBattle.item_2.vote;
-      return (this.currentBattle.item_1.vote / totalCount) * 100 || 0;
-    }
-  },
+
   created() {
     // récupérer les données lorsque la vue est créée et
     // que les données sont déjà observées
@@ -73,16 +50,6 @@ export default {
       this.currentBattle = this.battles.filter(
         battle => parseInt(battle.id) === parseInt(this.id)
       )[0];
-    },
-    vote: function(selectedItem) {
-      switch (selectedItem) {
-        case 1:
-          this.currentBattle.item_1.vote++;
-          break;
-        case 2:
-          this.currentBattle.item_2.vote++;
-          break;
-      }
     }
   },
   filters: {
