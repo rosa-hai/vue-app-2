@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Test from "../views/Test";
+import Create from "../views/Create";
 import Battle from "@/views/Battle";
 
 Vue.use(VueRouter);
@@ -13,14 +13,15 @@ const routes = [
     component: Home
   },
   {
-    path: "/test",
-    name: "Test",
-    component: Test
+    path: "/create",
+    name: "Create",
+    component: Create
   },
   {
     path: "/battle/:id",
     name: "Battle",
-    component: Battle
+    component: Battle,
+    props: route => ({ id: route.params.id })
   }
 ];
 //

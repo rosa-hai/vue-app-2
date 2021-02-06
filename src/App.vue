@@ -4,17 +4,36 @@
           <router-link to="/">Home</router-link>
           <router-link to="/test">Page Test</router-link>
         </div>-->
-    <BattleList />
+    <BattleList v-bind:battles="battles" />
+    <!--    {{typeof(battles)}}-->
     <div id="wrapper">
-      <router-view />
+      <router-view v-bind:battles="battles" />
     </div>
   </div>
 </template>
 <script>
 import BattleList from "@/components/BattleList";
+import battles from "@/assets/utils/battles.json";
+import router from "@/router";
 
+router.beforeEach((to, from, next) => {
+  if (!battles) {
+    next({
+      path: "/",
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
+  }
+});
 export default {
-  components: { BattleList }
+  components: { BattleList },
+  data: () => {
+    return { battles: [] };
+  },
+  mounted() {
+    this.battles = battles;
+  }
 };
 </script>
 
@@ -41,7 +60,10 @@ body {
   justify-content: center;
   height: 100vh;
 }
-h1, h2, h3 {
+
+h1,
+h2,
+h3 {
   text-align: center;
 }
 
@@ -69,7 +91,7 @@ h2 {
     flex: 3;
   }
 
-  .title{
+  .title {
     font-weight: bold;
   }
 }
