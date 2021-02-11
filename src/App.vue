@@ -4,35 +4,27 @@
           <router-link to="/">Home</router-link>
           <router-link to="/test">Page Test</router-link>
         </div>-->
-    <BattleList v-bind:battles="battles" />
+    <BattleList />
     <!--    {{typeof(battles)}}-->
     <div id="wrapper">
-      <router-view v-bind:battles="battles" />
+      <router-view />
     </div>
   </div>
 </template>
 <script>
 import BattleList from "@/components/BattleList";
-import battles from "@/assets/utils/battles.json";
-import router from "@/router";
-
-router.beforeEach((to, from, next) => {
-  if (!battles) {
-    next({
-      path: "/",
-      query: { redirect: to.fullPath }
-    });
-  } else {
-    next();
-  }
-});
+import battlesList from "@/assets/utils/battles.json";
+// import router from "@/router";
+import { mapState } from "vuex";
 export default {
   components: { BattleList },
-  data: () => {
-    return { battles: [] };
-  },
+  computed: mapState(["battles", "challengers"]),
+  methods: {},
   mounted() {
-    this.battles = battles;
+    const payload = {
+      battles: battlesList
+    };
+    this.$store.commit("setBattles", payload);
   }
 };
 </script>

@@ -18,11 +18,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "BattleList",
-  props: {
-    battles: Array
-  },
+  computed: mapState(["battles"]),
   filters: {
     battleName: battle => `${battle.item_1.name} -- ${battle.item_2.name}`
   }

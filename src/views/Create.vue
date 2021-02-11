@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Battle",
   components: {
@@ -43,9 +45,9 @@ export default {
     };
   },
   props: {
-    id: String,
-    battles: Array
+    id: String
   },
+  computed: mapState(["battles"]),
   methods: {
     newBattle: function() {
       if (this.newItem1 !== "" && this.newItem2 !== "") {
@@ -60,7 +62,10 @@ export default {
             vote: 0
           }
         };
-        this.battles.push(newB);
+        const payload = {
+          battle: newB
+        };
+        this.$store.commit("newBattle", payload);
         this.$router.push({
           name: "Battle",
           params: { id: ` ${newB.id}` }

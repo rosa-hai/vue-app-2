@@ -3,7 +3,7 @@
     <p data-color="primary">
       {{ currentBattle.item_1.name }} <br />
       {{ currentBattle.item_1.vote }} <br />
-      <span @click="vote(1)">+1</span>
+      <span @click="upvote(1)">+1</span>
     </p>
     <div id="range">
       <div class="fill" :style="{ width: fill + '%' }"></div>
@@ -12,12 +12,14 @@
       {{ currentBattle.item_2.name }} <br />
       {{ currentBattle.item_2.vote }}
       <br />
-      <span @click="vote(2)">+1</span>
+      <span @click="upvote(2)">+1</span>
     </p>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Battle",
   components: {},
@@ -34,6 +36,16 @@ export default {
           this.currentBattle.item_2.vote++;
           break;
       }
+    },
+    upvote: function(selectedItem){
+      const index = this.battles.findIndex(
+        battle => battle.id === this.currentBattle.id
+      );
+      const payload = {
+        index: index,
+        item: selectedItem
+      };
+      this.$store.commit("upvote", payload);
     }
   },
   computed: {
@@ -41,7 +53,8 @@ export default {
       const totalCount =
         this.currentBattle.item_1.vote + this.currentBattle.item_2.vote;
       return (this.currentBattle.item_1.vote / totalCount) * 100 || 0;
-    }
+    },
+    ...mapState(["battles"])
   }
 };
 </script>

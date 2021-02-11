@@ -8,6 +8,7 @@
 
 <script>
 import Stats from "@/components/Stats";
+import { mapState } from "vuex";
 export default {
   name: "Battle",
   components: {
@@ -29,10 +30,9 @@ export default {
     };
   },
   props: {
-    id: String,
-    battles: Array
+    id: String
   },
-
+  computed: mapState(["battles"]),
   created() {
     // récupérer les données lorsque la vue est créée et
     // que les données sont déjà observées
